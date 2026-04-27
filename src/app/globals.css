@@ -1,0 +1,98 @@
+:root {
+  --background: #d6eaf8; /* Distinct Pastel Blue */
+  --foreground: #2c3e50;
+  --card-bg: #fdf2f2; /* Soft Pastel Pink/Rose */
+  --input-bg: #fef9e7; /* Soft Pastel Yellow */
+  --accent-color: #aed6f1; /* Lighter Blue */
+  --button-color: #bb8fce; /* Soft Pastel Purple */
+  --button-hover: #a569bd;
+}
+
+html,
+body {
+  height: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--background);
+}
+
+body {
+  color: var(--foreground);
+  background-color: var(--background);
+  /* More visible pastel gradients */
+  background-image: 
+    radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+    radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+    radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
+  
+  /* Fallback and overlay for better pastel feel */
+  background: linear-gradient(135deg, #d6eaf8 0%, #d1f2eb 50%, #fadbd8 100%);
+  
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.card {
+  border: 4px solid #ffffff !important; /* White border to make the pastel pop */
+  border-radius: 30px !important;
+  background-color: var(--card-bg) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.form-control {
+  background-color: var(--input-bg) !important;
+  border: 2px solid #ffffff !important;
+  border-radius: 15px !important;
+  padding: 0.8rem 1.2rem !important;
+  color: #5d6d7e !important;
+}
+
+.form-control:focus {
+  background-color: #ffffff !important;
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 0.25rem rgba(174, 214, 241, 0.4) !important;
+}
+
+.btn-primary {
+  background-color: var(--button-color) !important;
+  border: none !important;
+  border-radius: 15px !important;
+  padding: 12px 30px !important;
+  font-weight: 600 !important;
+  color: white !important;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-primary:hover {
+  background-color: var(--button-hover) !important;
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(187, 143, 206, 0.4);
+}
+
+.form-check-input {
+  background-color: var(--input-bg) !important;
+  border: 2px solid #ffffff !important;
+  width: 1.5em !important;
+  height: 1.5em !important;
+}
+
+.form-check-input:checked {
+  background-color: #f1948a !important; /* Pastel Coral */
+  border-color: #f1948a !important;
+}
+
+h1 {
+  color: #5d6d7e;
+  font-weight: 800 !important;
+  letter-spacing: -1px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #7f8c8d;
+  margin-left: 5px;
+}
+
+* {
+  box-sizing: border-box;
+}
