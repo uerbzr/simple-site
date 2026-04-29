@@ -17,13 +17,16 @@ export default function Home() {
     setStatus('loading');
     setMessage('');
 
-    const apiUrl = process.env.NEXT_PUBLIC_N8N_PLACEHOLDER_URL;
+    const n8nUrl = process.env.N8N_URL;
+    const workflowId = process.env.N8N_WORKFLOW_ID;
 
-    if (!apiUrl) {
+    if (!n8nUrl || !workflowId) {
       setStatus('error');
       setMessage('API URL is not configured.');
       return;
     }
+
+    const apiUrl = `${n8nUrl}/webhook/${workflowId}`;
 
     try {
       const response = await fetch(apiUrl, {
