@@ -18,15 +18,14 @@ export default function Home() {
     setMessage('');
 
     const n8nUrl = process.env.N8N_URL;
-    const workflowId = process.env.N8N_WORKFLOW_ID;
 
-    if (!n8nUrl || !workflowId) {
+    if (!n8nUrl) {
       setStatus('error');
       setMessage('API URL is not configured.');
       return;
     }
 
-    const apiUrl = `${n8nUrl}/webhook/${workflowId}`;
+    const apiUrl = `${n8nUrl}/webhook/contact-insert`;
 
     try {
       console.log('POST URL:', apiUrl);
