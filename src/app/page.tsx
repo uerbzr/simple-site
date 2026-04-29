@@ -29,6 +29,8 @@ export default function Home() {
     const apiUrl = `${n8nUrl}/webhook/${workflowId}`;
 
     try {
+      console.log('POST URL:', apiUrl);
+      console.log('POST body:', JSON.stringify(formData, null, 2));
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
