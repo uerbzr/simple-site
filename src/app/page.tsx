@@ -1,53 +1,38 @@
-'use client';
+"use client";
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent } from "react";
+import { submitContact } from "./actions";
+import { ContactFormData } from "./types";
 
 export default function Home() {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
+  const [formData, setFormData] = useState<ContactFormData>({
+    firstName: "",
+    lastName: "",
+    email: "",
     consent: false,
   });
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setStatus('loading');
-    setMessage('');
-
-    const n8nUrl = process.env.N8N_URL;
-
-    if (!n8nUrl) {
-      setStatus('error');
-      setMessage('API URL is not configured.');
-      return;
-    }
-
-    const apiUrl = `${n8nUrl}/webhook/contact-insert`;
+    setStatus("loading");
+    setMessage("");
 
     try {
-      console.log('POST URL:', apiUrl);
-      console.log('POST body:', JSON.stringify(formData, null, 2));
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setStatus('success');
-        setMessage('Thank you! Your information has been submitted.');
-        setFormData({ firstName: '', lastName: '', email: '', consent: false });
+      const result = await submitContact(formData);
+      if (result.ok) {
+        setStatus("success");
+        setFormData({ firstName: "", lastName: "", email: "", consent: false });
       } else {
-        throw new Error('Failed to submit');
+        setStatus("error");
       }
+      setMessage(result.message);
     } catch {
-      setStatus('error');
-      setMessage('Something went wrong. Please try again later.');
+      setStatus("error");
+      setMessage("Something went wrong. Please try again later.");
     }
   };
 
@@ -55,7 +40,7 @@ export default function Home() {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -66,14 +51,14 @@ export default function Home() {
           <div className="card shadow">
             <div className="card-body p-4">
               <h1 className="h3 mb-4 text-center">Contact Us</h1>
-              
-              {status === 'success' && (
+
+              {status === "success" && (
                 <div className="alert alert-success" role="alert">
                   {message}
                 </div>
               )}
-              
-              {status === 'error' && (
+
+              {status === "error" && (
                 <div className="alert alert-danger" role="alert">
                   {message}
                 </div>
@@ -81,7 +66,9 @@ export default function Home() {
 
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label htmlFor="firstName" className="form-label">First Name</label>
+                  <label htmlFor="firstName" className="form-label">
+                    First Name
+                  </label>
                   <input
                     type="text"
                     className="form-control"
@@ -92,9 +79,11 @@ export default function Home() {
                     required
                   />
                 </div>
-                
+
                 <div className="mb-3">
-                  <label htmlFor="lastName" className="form-label">Last Name</label>
+                  <label htmlFor="lastName" className="form-label">
+                    Last Name
+                  </label>
                   <input
                     type="text"
                     className="form-control"
@@ -107,7 +96,9 @@ export default function Home() {
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email Address</label>
+                  <label htmlFor="email" className="form-label">
+                    Email Address
+                  </label>
                   <input
                     type="email"
                     className="form-control"
@@ -130,7 +121,8 @@ export default function Home() {
                     required
                   />
                   <label className="form-check-label" htmlFor="consent">
-                    I consent to having this website store my submitted information.
+                    I consent to having this website store my submitted
+                    information.
                   </label>
                 </div>
 
@@ -138,14 +130,20 @@ export default function Home() {
                   <button
                     type="submit"
                     className="btn btn-primary btn-lg"
-                    disabled={status === 'loading'}
+                    disabled={status === "loading"}
                   >
-                    {status === 'loading' ? (
+                    {status === "loading" ? (
                       <>
-                        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        <span
+                          className="spinner-border spinner-border-sm me-2"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
                         Submitting...
                       </>
-                    ) : 'Submit'}
+                    ) : (
+                      "Submit"
+                    )}
                   </button>
                 </div>
               </form>
